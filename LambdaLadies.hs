@@ -35,12 +35,17 @@ type RuleND = (ND, ND)
 
 --f :: RuleSC -> RuleND
 --f 
+
+fElim :: Seq -> ND
+fElim (x, y) = [(head x, head y)]
+
 {-
 cRec :: RuleSC -> RuleND
 cRec ((x:xs, ys), (z:zs, as)) = case xs of
     [] -> cElim ((x:xs, ys), (z:zs, as))
     _  -> cIntr ((x:xs, ys), (z:zs, as))
 -}
+
 merge :: Seq -> ND
 merge ([], _)       = []
 merge ((x:xs), [y]) = [(x, y)] ++ merge (xs, [y])
@@ -69,6 +74,7 @@ mergeRec (x:xs) = merge x : mergeRec xs
 
 dElim :: RuleSC -> RuleND
 dElim (xs, (ys, zs)) = (concat (mergeRec xs), merge (ys, zs))
+
 
 
 p1 :: RuleSC
