@@ -63,13 +63,13 @@ dIntr1 s = swap' (cElim1 s)
 dIntr2 :: RuleSC -> RuleND
 dIntr2 s = swap' (cElim2 s)
 
---dElim :: RuleSC -> RuleND
---dElim ([], _)          = 
---dElim (x:xs, (ys, zs)) = case x of 
---    (as, bs) -> (merge (as, bs) : dElim (xs, (ys, zs)), merge (ys, zs))
-
 mergeRec :: [Seq] -> [ND]
+mergeRec []     = []
 mergeRec (x:xs) = merge x : mergeRec xs
+
+dElim :: RuleSC -> RuleND
+dElim (xs, (ys, zs)) = (concat (mergeRec xs), merge (ys, zs))
+
 
 p1 :: RuleSC
 p1 = ([([V 1, V 2], [N])], ([C (V 1) (V 2)], [N]))
