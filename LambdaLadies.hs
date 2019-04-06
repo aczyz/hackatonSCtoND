@@ -59,7 +59,12 @@ cRec ((x:xs, ys), (z:zs, as)) = case xs of
 
 merge :: Seq -> ND
 merge ([], _)       = []
+merge (_, [])       = []
 merge ((x:xs), [y]) = [(x, y)] ++ merge (xs, [y])
+
+merge' :: Seq -> ND
+merge' (_, [])       = []
+merge' ([x], y:ys)   = [(x, y)] ++ merge' ([x], ys)
 
 swap' :: RuleND -> RuleND
 swap' (x, y) = (y, x)
@@ -68,10 +73,10 @@ cIntr :: RuleSC -> RuleND
 cIntr ([(xs, [y])], (zs, [a])) = (merge (xs, [y]), merge (zs, [a]))
 
 cElim1 :: RuleSC -> RuleND
-cElim1 ([(xs, [y])], (zs, [a])) = (merge (xs, [y]), [(head zs, a)])
+cElim1 (xs, (zs, [a])) = (merge $ head xs, [(head zs, a)])
 
 cElim2 :: RuleSC -> RuleND
-cElim2 ([(xs, [y])], (zs, [a])) = (merge (xs, [y]), [(head $ tail zs, a)])
+cElim2 (xs, (zs, [a])) = (merge $ head $ tail xs, [(head zs, a)])
 
 dIntr1 :: RuleSC -> RuleND
 dIntr1 s = swap' (cElim1 s)
@@ -83,8 +88,12 @@ mergeRec :: [Seq] -> [ND]
 mergeRec []     = []
 mergeRec (x:xs) = merge x : mergeRec xs
 
+mergeRec' :: [Seq] -> [ND]
+mergeRec' []     = []
+mergeRec' (x:xs) = merge' x : mergeRec' xs
+
 dElim :: RuleSC -> RuleND
-dElim (xs, (ys, zs)) = (concat (mergeRec xs), merge (ys, zs))
+dElim (xs, (ys, zs)) = (concat $ mergeRec' xs, merge' (ys, zs))
 
 iIntr :: RuleSC -> RuleND
 iIntr (xs, (ys, zs)) = (concat (mergeRec xs), merge (ys, zs))
@@ -92,11 +101,30 @@ iIntr (xs, (ys, zs)) = (concat (mergeRec xs), merge (ys, zs))
 iElim :: RuleSC -> RuleND
 iElim (xs, (ys, zs)) = (concat (mergeRec xs), merge (ys, zs))
 
+-- cIntr
 p1 :: RuleSC
 p1 = ([([V 1, V 2], [N])], ([C (V 1) (V 2)], [N]))
 
+-- cElim1, cElim2
 p2 :: RuleSC
-p2 = ([([C (V 1) (V 2)], [N])], ([V 1, V 2], [N]))
+p2 = ([([N], [V 1]), ([N], [V 2])],([N], [C (V 1) (V 2)]))
 
+-- dIntr1, dIntr2
 p3 :: RuleSC
-p3 = ([([V 1], [N]), ([V 1], [N])],([D (V 1) (V 2)], [N]))
+p3 = ([([V 1], [N]), ([V 2], [N])],([D (V 1) (V 2)], [N]))
+
+-- dElim
+p4 :: RuleSC
+p4 = ([([N], [V 1, V 2])], ([N], [D (V 1) (V 2)]))
+
+-- iElim
+p5 :: RuleSC
+p5 = ([([N], [V 1]), ([V 2], [N])],([I (V 1) (V 2)], [N]))
+
+-- iIntr
+p6 :: RuleSC
+p6 = ([([V 1], [V 2])], ([N], [I (V 1) (V 2)]))
+
+-- fElim
+pf :: Seq
+pf = ([F], [N])
