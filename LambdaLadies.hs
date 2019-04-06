@@ -16,14 +16,15 @@ instance Show Form where
     show (D x y)   = "(" ++ show x ++ "\\wedge " ++ show y ++ ")"
     show (I x y)   = "(" ++ show x ++ "\\rightarrow " ++ show y ++ ")"
 -}
-{-
+
 instance Show Form where
     show (V i)   = "V" ++ show i
     show F       = "F"
     show (C a b) = show a ++ " ^ " ++ show b
     show (D a b) = show a ++ " v " ++ show b
     show (I a b) = show a ++ " -> " ++ show b
--}
+    show N       = "null"
+
 -- | Sekwent - pierwszy element pary zawiera formuły, które znajdują się po 
 -- lewej stronie sekwentu, drugi element pary zawiera formuły, które 
 -- znajdują się po prawej stronie sekwentu
