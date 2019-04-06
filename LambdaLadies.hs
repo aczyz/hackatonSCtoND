@@ -1,3 +1,5 @@
+module LambdaLadies where
+
 -- | Formuła
 data Form = V Int       -- zmienna
           | F           -- falsum
@@ -83,8 +85,8 @@ mergeRec (x:xs) = merge x : mergeRec xs
 dElim :: RuleSC -> RuleND
 dElim (xs, (ys, zs)) = (concat (mergeRec xs), merge (ys, zs))
 
---iIntr :: RuleSC -> RuleND
---iIntr ()
+iIntr :: RuleSC -> RuleND
+iIntr (xs, (ys, zs)) = (concat (mergeRec xs), merge (ys, zs))
 
 iElim :: RuleSC -> RuleND
 iElim (xs, (ys, zs)) = (concat (mergeRec xs), merge (ys, zs))
