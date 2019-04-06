@@ -5,7 +5,15 @@ data Form = V Int       -- zmienna
           | D Form Form -- alternatywa
           | I Form Form -- implikacja
           | N           -- null, pusty kontekst
-          deriving(Eq, Read, Show)
+          deriving(Eq, Read)
+{-
+instance Show Form where
+    show (F)       = "\\perp "
+    show (V x)     = "p_" ++ show x
+    show (C x y)   = "(" ++ show x ++ "\\vee " ++ show y ++ ")"
+    show (D x y)   = "(" ++ show x ++ "\\wedge " ++ show y ++ ")"
+    show (I x y)   = "(" ++ show x ++ "\\rightarrow " ++ show y ++ ")"
+-}
 {-
 instance Show Form where
     show (V i)   = "V" ++ show i
@@ -75,7 +83,11 @@ mergeRec (x:xs) = merge x : mergeRec xs
 dElim :: RuleSC -> RuleND
 dElim (xs, (ys, zs)) = (concat (mergeRec xs), merge (ys, zs))
 
+--iIntr :: RuleSC -> RuleND
+--iIntr ()
 
+iElim :: RuleSC -> RuleND
+iElim (xs, (ys, zs)) = (concat (mergeRec xs), merge (ys, zs))
 
 p1 :: RuleSC
 p1 = ([([V 1, V 2], [N])], ([C (V 1) (V 2)], [N]))
