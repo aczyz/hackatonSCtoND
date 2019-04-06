@@ -1,6 +1,6 @@
 import Data.Char
 import System.IO
-import LambdaLadies
+
 {-
 
 strlen :: IO ()
@@ -15,6 +15,7 @@ strlen = do putStr "Wybierz regułę w rachunku sekwentów: \n 1 : lewa koniunkc
             putStrLn " characters"
 -}
 
+
 main :: IO ()
 main = do
     putStrLn (" Wybierz regułę w rachunku sekwentów: \n 1 : lewa koniunkcja \n 2 : prawa koniunkcja \n 3 : lewa alternatywa \n 4 : prawa alternatywa \n 5 : lewa implikacja \n 6 : prawa implikacja \n 7 : falsum \n Wybierz formułę (podaj liczbę): ")
@@ -23,6 +24,15 @@ main = do
     let xs3 = f2 xs
     putStrLn ("wybrałeś " ++ xs2)
     putStrLn ("Twoja reguła w rachunku sekwentów ma postać:" ++ f2 xs)
+    putStrLn ("Zanim przejdziemy do translacji, czy chciałbyś zobaczyć tę regułę w przyjaźniejszej wersji?")
+    ys <- getLine
+    putStrLn (f3 ys)
+
+f3 :: String -> String
+f3 ys =  case ys of
+         "Tak" -> "Dobrze, uproścmy to: "
+         "Nie" -> "Gratulacje, w takim razie przejdźmy do translacji"
+         _     -> "odpowiedz Tak albo Nie"
 
 
 trans :: String -> String
@@ -44,5 +54,3 @@ f2 x = case x of
   "5" -> "([([N], [V 1]), ([V 2], [N])], ([I (V 1) (V 2)], [N]))"
   "6" -> "([[V 1], [V 2])], ([N], [I (V 1) (V 2]))"
   "7" -> "([F],[N])"
-
-
