@@ -22,16 +22,8 @@ main = do
     let xs3 = f2 xs
     putStrLn ("wybrałeś " ++ xs2)
     putStrLn ("Twoja reguła w rachunku sekwentów ma postać:" ++ f2 xs)
+    putStrLn ("Twoja reguła w dedukcji naturalnej ma postać:" ++ f4 xs)
 
-
-
-validate :: String -> Maybe Int
-validate s = isValid (reads s)
-   where isValid []            = Nothing
-         isValid ((n, _):_) 
-               | outOfBounds n = Nothing
-               | otherwise     = Just n
-         outOfBounds n = (n < 1) || (n > 7)
 
 trans :: String -> String
 trans x = case x of
@@ -53,12 +45,12 @@ f2 x = case x of
   "6" -> "([[V 1], [V 2])], ([N], [I (V 1) (V 2]))"
   "7" -> "([F],[N])"
 
-  f4 :: String -> String
-  f4 x = case x of
-    "1" -> "([(V1,null),(V2,null)],[(V1 ^ V2,null)])"
-    "2" -> "[([(V1 ^ V2,null)],[(V2,null)]),([(V1 ^ V2,null)],[(V1,null)])]"
-    "3" -> "([([V 1], [N]),([V 2], [N])], ([D (V 1) (V 2)], [N]))"
-    "4" -> "([([N], [V 1, V 2])], (([N], [[D (V 1) (V 2)]))"
-    "5" -> "([([N], [V 1]), ([V 2], [N])], ([I (V 1) (V 2)], [N]))"
-    "6" -> "([[V 1], [V 2])], ([N], [I (V 1) (V 2]))"
-    "7" -> "([F],[N])"
+f4 :: String -> String
+f4 x = case x of
+ "1" -> "([(V1,null),(V2,null)],[(V1 ^ V2,null)])"
+ "2" -> "[([(V1 ^ V2,null)],[(V2,null)]),([(V1 ^ V2,null)],[(V1,null)])]"
+ "3" -> "pozniej"
+ "4" -> "pozniej"
+ "5" -> "pozniej"
+ "6" -> "pozniej"
+ "7" -> "pozniej"
