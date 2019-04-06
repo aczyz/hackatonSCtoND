@@ -22,7 +22,7 @@ main = do
     let xs2 = trans xs
     let xs3 = f2 xs
     putStrLn ("wybrałeś " ++ xs2)
-    putStrLn ("Twoja formuła w rachunku sekwentów ma postać:" ++ f2 xs)
+    putStrLn ("Twoja reguła w rachunku sekwentów ma postać:" ++ f2 xs)
 
 
 trans :: String -> String
@@ -37,12 +37,13 @@ trans x = case x of
 
 f2 :: String -> String
 f2 x = case x of
-  "1" -> "([([V 1, V 2], [N])], ([C (V 1) (V 2)], [N]))"
+  "1" -> "([([C (V 1) (V 2)], [N])], ([V 1, V 2], [N]))"
   "2" -> "([([V 1, V 2], [N])], ([C (V 1) (V 2)], [N]))"
   "3" -> "([([V 1, V 2], [N])], ([C (V 1) (V 2)], [N]))"
-  "4" -> "([([V 1, V 2], [N])], ([C (V 1) (V 2)], [N]))"
+  "4" -> "([([N], [[D (V 1) (V 2)])], ([N], [V 1, V 2]))"
   "5" -> "([([V 1, V 2], [N])], ([C (V 1) (V 2)], [N]))"
   "6" -> "([([V 1, V 2], [N])], ([C (V 1) (V 2)], [N]))"
-  "7" -> "([([V 1, V 2], [N])], ([C (V 1) (V 2)], [N]))"
+  "7" -> "([F],[N])"
 
 
+([([D V 1, V 2], [N])], ([(V 1)], [N]))
